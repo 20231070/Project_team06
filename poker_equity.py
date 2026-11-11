@@ -122,6 +122,15 @@ def advice(rate, num_opponents=NUM_OPPONENTS):
 def analyze(my_cards):
     """내 카드 2장(예: ["AS", "KH"])을 받아 평가 결과를 출력."""
     my_cards = [norm(c) for c in my_cards]
+
+     # YOLO 인식 오류 방어
+    if len(my_cards) != 2:
+        raise ValueError(f"내 카드는 2장이어야 합니다: {my_cards}")
+    if len(set(my_cards)) != 2:
+        raise ValueError(f"같은 카드가 두 번 인식됐습니다: {my_cards}")
+    if any(c not in DECK for c in my_cards):
+        raise ValueError(f"알 수 없는 카드 표기가 있습니다: {my_cards}")
+    
     rate = my_win_rate(my_cards)
     grade, action = advice(rate)
 
