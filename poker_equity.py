@@ -96,9 +96,30 @@ def describe_hand(my_cards):
         tags.append("높은 카드 포함")
     return ", ".join(tags) if tags else "특별한 조합 없음"
 
+
+def advice(rate, num_opponents=NUM_OPPONENTS):
+    """승률을 '공평한 몫(1/전체 인원)'과 비교해서 카드 평가와 행동 추천을 반환."""
+    fair = 1 / (num_opponents + 1)
+    ratio = rate / fair
+
+    if ratio >= 1.4:
+        return "매우 좋은 카드", "적극적으로 베팅/레이즈하세요."
+    if ratio >= 1.1:
+        return "좋은 카드", "계속 게임하세요 (콜 또는 가벼운 베팅)."
+    if ratio >= 0.9:
+        return "보통 카드", "신중하게 계속하세요. 큰 베팅이 들어오면 포기도 고려하세요."
+    if ratio >= 0.7:
+        return "약한 카드", "되도록 포기하세요. 공짜로 볼 수 있을 때만 계속하세요."
+    return "매우 약한 카드", "포기(폴드)를 추천합니다."
+
+
 # ---------------- 실행: 실행할 때마다 내 카드가 새로 뽑힘 ----------------
 my_cards = random.sample(DECK, 2)
 rate = my_win_rate(my_cards)
+grade, action = advice(rate)
 
 print("내 카드:", my_cards)
+print("카드 특징:", describe_hand(my_cards))
 print(f"내 승률: {rate:.1%}")
+print("카드 평가:", grade)
+print("추천 행동:", action)
