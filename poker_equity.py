@@ -7,7 +7,7 @@ NUM_OPPONENTS = 1     # 상대 인원 (패는 모름 → 랜덤으로 가정)
 ITERATIONS = 20000    # 시뮬레이션 횟수
 
 RANKS = "23456789TJQKA"
-SUITS = "shdc"
+SUITS = "SHDC"
 DECK = [r + s for r in RANKS for s in SUITS]
 VALUE = {r: i + 2 for i, r in enumerate(RANKS)}
 
@@ -16,11 +16,15 @@ HAND_NAMES = [
     "플러시", "풀하우스", "포카드", "스트레이트 플러시", "로열 플러시",
 ]
 
+def norm(card):
+    """YOLO가 넘겨준 카드 표기를 덱 표기와 맞춤 (대문자 통일, T는 10으로)."""
+    card = card.strip().upper()
+    return "10" + card[-1] if card[0] == "T" else card
 
 def rank5(cards):
     """카드 5장의 족보를 (족보번호, 키커...) 튜플로 반환. 튜플이 클수록 강한 패."""
-    vals = sorted((VALUE[c[0]] for c in cards), reverse=True)
-    is_flush = len({c[1] for c in cards}) == 1
+    vals = sorted((VALUE[c[:-1]] for c in cards), reverse=True)
+    is_flush = len({c[-1] for c in cards}) == 1
 
     # 스트레이트 판정 (A-2-3-4-5 도 인정)
     straight_high = 0
@@ -114,12 +118,18 @@ def advice(rate, num_opponents=NUM_OPPONENTS):
 
 
 # ---------------- 실행: 실행할 때마다 내 카드가 새로 뽑힘 ----------------
-my_cards = random.sample(DECK, 2)
-rate = my_win_rate(my_cards)
-grade, action = advice(rate)
+def analyze(my_cards):
+    """내 카드 2장(예: ["AS", "KH"])을 받아 평가 결과를 출력."""
+    my_cards = [norm(c) for c in my_cards]
+    rate = my_win_rate(my_cards)
+    grade, action = advice(rate)
 
-print("내 카드:", my_cards)
-print("카드 특징:", describe_hand(my_cards))
-print(f"내 승률: {rate:.1%}")
-print("카드 평가:", grade)
-print("추천 행동:", action)
+    print("내 카드:", my_cards)
+    print("카드 특징:", describe_hand(my_cards))
+    print(f"내 승률: {rate:.1%}")
+    print("카드 평가:", grade)
+    print("추천 행동:", action)
+
+
+# 지금은 랜덤 카드로 테스트 (실행할 때마다 달라짐)
+analyze(random.sample(DECK, 2))
