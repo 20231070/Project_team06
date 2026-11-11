@@ -6,7 +6,7 @@ from collections import Counter
 NUM_OPPONENTS = 1     # 상대 인원 (패는 모름 → 랜덤으로 가정)
 ITERATIONS = 20000    # 시뮬레이션 횟수
 
-RANKS = "23456789TJQKA"
+RANKS = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
 SUITS = "SHDC"
 DECK = [r + s for r in RANKS for s in SUITS]
 VALUE = {r: i + 2 for i, r in enumerate(RANKS)}
@@ -87,7 +87,8 @@ def my_win_rate(my_cards, iterations=ITERATIONS, num_opponents=NUM_OPPONENTS):
 
 def describe_hand(my_cards):
     """내 카드 2장의 특징을 한 줄로 설명."""
-    (r1, s1), (r2, s2) = my_cards
+    r1, s1 = my_cards[0][:-1], my_cards[0][-1]
+    r2, s2 = my_cards[1][:-1], my_cards[1][-1]
     v1, v2 = VALUE[r1], VALUE[r2]
     tags = []
     if v1 == v2:
