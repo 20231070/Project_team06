@@ -168,4 +168,4 @@ with right:
     st.markdown(f'<div class="advice">👉 {advice_text}</div>', unsafe_allow_html=True)
 
 st.markdown("---")
-st.caption("※ 승률은 현재 내 카드 2장과 공개된 커뮤니티 카드 3장을 기준으로, 남은 커뮤니티 카드 2장 및 상대 카드를 무작위로 생성해 추정한 값입니다.")
+st.caption("※ 승률은 현재 내 카드 2장과 공개된 커뮤니티 카드를 기준으로, 남은 커뮤니티 카드 2장 및 상대 카드를 무작위로 생성해 추정한 값입니다.")

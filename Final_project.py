@@ -571,12 +571,22 @@ with left_col:
     st.subheader("📷 실시간 웹캠")
 
     st.markdown(
+<<<<<<< HEAD
+        '<div class="section-title">'
+        '📷 포커 사진 촬영'
+=======
         '<div class="status-text">'
         '웹캠 영상은 YOLO 분석과 분리되어 실시간으로 출력됩니다.'
+>>>>>>> upstream/main
         '</div>',
         unsafe_allow_html=True,
     )
 
+<<<<<<< HEAD
+    uploaded = st.camera_input(
+        "웹캠으로 포커 테이블을 촬영하세요.",
+        key="card_camera"
+=======
     rtc_configuration = RTCConfiguration({
         "iceServers": [
             {"urls": ["stun:stun.l.google.com:19302"]}
@@ -596,6 +606,7 @@ with left_col:
             "audio": False,
         },
         async_processing=True,
+>>>>>>> upstream/main
     )
 
     st.caption(
